@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="main.css" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
+      integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q"
+      crossorigin="anonymous"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <title>My Diary App</title>
+  </head>
+  <body>
+    <header><h1 class="title">Sanskritha's Personal Diary</h1></header>
+
+    <!-- Developer Info and Link Section -->
+    
+    <!-- Journal Entry Section -->
+    <section class="section journal-section">
+      <div class="container">
+        <div class="container-row container-row-journal">
+          <div class="container-item container-item-journal">
+            <form id="entryForm" onsubmit="submitForm(event)">
+              <label for="entry-title" class="journal-label">Entry Title</label>
+              <input
+                type="text"
+                name="entry-title"
+                id="entry-title"
+                class="entry-text-title"
+                placeholder="Name of entry ✏️"
+              />
+              <label for="entry" class="journal-label">Today's Entry</label>
+              <textarea
+                name="daily-entry"
+                id="entry"
+                class="entry-text-box"
+                placeholder="What's on your mind today? 💭"
+              ></textarea>
+              <button class="btn-main entry-submit-btn" type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Journal Entry Results -->
+    <section class="section sectionEntryResults" id="entryResultsSection">
+      <div class="container">
+        <div class="container-row entryResultRow"></div>
+      </div>
+    </section>
+
+    <!-- Add this button after the submit button -->
+    <button class="btn-main save-page-btn" onclick="savePage()">Save Page</button>
+
+    <!-- Add this script at the end of your HTML file, before the </body> tag -->
+    <script>
+      function submitForm(event) {
+        event.preventDefault(); // Prevents the default form submission behavior
+
+        // Your logic to handle the form submission goes here
+        alert("Form submitted!"); // Replace this with your actual logic
+
+        // Example: Call a function to handle saving the entry
+        saveEntryLocally();
+      }
+
+      function savePage() {
+        // Your save page logic goes here
+        alert("Page saved!"); // You can replace this with your actual save logic
+      }
+
+      function saveEntryLocally() {
+        const entryTitle = document.getElementById("entry-title").value;
+        const entryContent = document.getElementById("entry").value;
+
+        // Create a Blob containing the entry content
+        const blob = new Blob([`Entry Title: ${entryTitle}\n\n${entryContent}`], { type: "text/plain" });
+
+        // Create a download link
+        const a = document.createElement("a");
+
+        // Customize the filename based on the entry title
+        const filename = entryTitle ? entryTitle.replace(/ /g, "_") + "_entry.txt" : "untitled_entry.txt";
+        a.download = filename;
+
+        a.href = URL.createObjectURL(blob);
+
+        // Append the link to the document and trigger the download
+        document.body.appendChild(a);
+        a.click();
+
+        // Remove the link from the document
+        document.body.removeChild(a);
+
+        // Release the URL object
+        URL.revokeObjectURL(a.href);
+      }
+    </script>
+
+    <script src="index.js"></script>
+  </body>
+</html>
